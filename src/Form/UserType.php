@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -55,12 +56,31 @@ class UserType extends AbstractType
                 'second_options' => ['label' => "Confirmation mot de passe :"]
 
             ]);
+
+        if ($options['isAdmin']) {
+            $builder->remove('password')
+                ->add(
+                    'roles',
+                    ChoiceType::class,
+                    [
+                        'label' => 'Roles :',
+                        'placeholder' => 'Sélectionner un rôle',
+                        'choices' => [
+                            'Utilisateur' => 'ROLE_USER',
+                            'Administrateur' => 'ROLE_ADMIN',
+                        ],
+                        'expanded' => true,
+                        'multiple' => true,
+                    ]
+                );
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'isAdmin' => false,
         ]);
     }
 }
