@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Créer un article
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-4">
+		<h1 class="text-center">Créer un article</h1>
+		{% include 'Backend/articles/_form.html.twig' with {labelButton : 'Publier'} %}
+		<a href="{{path('admin.articles.index')}}" class="btn btn-secondary">Retour à la liste</a>
+	</section>
+
+{% endblock %}

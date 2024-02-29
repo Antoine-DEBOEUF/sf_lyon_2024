@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Administration des articles
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-2">
+		<h1 class="text-center">Administration des articles</h1>
+		<div class="card-list mt-4">
+			{% for article in articles %}
+
+				<div class="blog-card">
+					<div class="blog-card-content">
+						<h2 class="bolg-card-header">{{article.title}}</h2>
+						<p>
+							<strong>Par :
+							</strong>
+							{{article.user.fullName}}</p>
+						<p></p>
+						<p>
+							{{article.description}}
+						</p>
+
+						<strong>Paru le :
+						</strong>
+						{{article.createdAt | date('Y-m-d')}}
+					</p>
+					{% if(article.updatedAt) %}
+						<p>
+							<strong>Dernière modification le :
+							</strong>
+							{{article.updatedAt | date('Y-m-d')}}
+						</p>
+					{% endif %}
+
+					{# <div class="blog-card-btn">
+																		<a href="{{path('admin.articles.edit', {id: article.id})}}" class="btn btn-warning">
+																			<i class="bi bi-pencil-square"></i>
+																			Modifier</a>
+																		{% include "Backend/Articles/_deleteform.html.twig" %}
+																	</div> #}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</section>{% endblock %}
