@@ -1,0 +1,43 @@
+<div class="blog-card">
+	{% if article.imageName %}
+		<div class="blog-card-img">
+			<img src="{{vich_uploader_asset(article)}}" alt="{{article.title}}" loading="lazy">
+		</div>
+	{% endif %}
+	<div class="blog-card-content">
+		<p>
+			<i class="bi bi-calendar2-week-fill"></i>
+			{{article.createdAt | format_datetime('full', 'none')}}
+		</p>
+		<h2 class="blog-card-header">{{article.title}}</h2>
+
+		<p>
+			{{article.description|slice(0,20) ~ '[---]'}}
+		</p>
+		<p>
+			<strong>Par :
+			</strong>
+			{{article.user.fullName}}
+		</p>
+		{% if(article.updatedAt) %}
+			<p>
+				<strong>Dernière modification le :
+				</strong>
+				{{article.updatedAt | format_datetime('full', 'none')}}
+			</p>
+		{% endif %}
+
+		<div class="form-check form-switch">
+			<input class="form-check-input" type="checkbox" id="switch-visibility-article-{{article.id}}" {{article.enable ? 'checked'}} data-switch-article="{{article.id}}"/>
+			<label class="form-check-label" for="switch-visibility-article-{{article.id}}">{{article.enable ? 'Actif' : 'Inactif'}}</label>
+		</div>
+
+
+		<div class="blog-card-btn">
+			<a href="{{path('admin.articles.edit', {slug: article.slug})}}" class="btn btn-warning">
+				<i class="bi bi-pencil-square"></i>
+				Modifier</a>
+			{% include "Backend/Articles/_deleteform.html.twig" %}
+		</div>
+	</div>
+</div>

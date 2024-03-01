@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/admin/articles', 'admin.articles')]
 class ArticleController extends AbstractController
@@ -100,5 +100,27 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('admin.articles.index');
+    }
+
+    #[Route('/{id}/switch', '.switch', methods: ['GET'])]
+    public function switch(?Article $article): JsonResponse
+    {
+        if (!$article) {
+            return new JsonResponse([
+                'status' => 'Error',
+                'message' => 'Article non trouvé'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $article->setEnable(!$article->isEnable());
+
+        $this->em->persist($article);
+        $this->em->flush();
+
+        return new JsonResponse([
+            'status' => 'success',
+            'message' => 'Visibility changed',
+            'enable' => $article->isEnable(),
+        ], Response::HTTP_CREATED);
     }
 }

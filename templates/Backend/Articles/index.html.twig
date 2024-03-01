@@ -5,50 +5,24 @@
 	{{parent()}}
 {% endblock %}
 
+{% block stylesheets %}
+	{{parent()}}
+	{{ encore_entry_link_tags('admin')}}
+{% endblock %}
+
+{% block javascripts %}
+	{{parent()}}
+	{{encore_entry_script_tags('admin')}}
+{% endblock %}
+
 {% block body %}
 	<section class="container mt-2">
 		<h1 class="text-center">Administration des articles</h1>
 		<a href="{{path('admin.articles.create')}}" class="btn btn-info">Créer un article</a>
 		<div class="card-list mt-4">
 			{% for article in articles %}
-
-				<div class="blog-card">
-					<div class="blog-card-content">
-						<h2 class="blog-card-header">{{article.title}}</h2>
-						<p>
-							<strong>Par :
-							</strong>
-							{{article.user.fullName}}</p>
-						<p></p>
-						<p>
-							{{article.description|slice(0,20) ~ '[---]'}}
-						</p>
-
-						<strong>Publié le :
-						</strong>
-						{{article.createdAt | format_datetime('full', 'none')}}
-					</p>
-					{% if(article.updatedAt) %}
-						<p>
-							<strong>Dernière modification le :
-							</strong>
-							{{article.updatedAt | format_datetime('full', 'none')}}
-						</p>
-					{% endif %}
-
-					<p>
-						<strong>Actif :
-						</strong>
-						{{article.enable ? 'Oui' : 'Non'}}</p>
-
-					<div class="blog-card-btn">
-						<a href="{{path('admin.articles.edit', {slug: article.slug})}}" class="btn btn-warning">
-							<i class="bi bi-pencil-square"></i>
-							Modifier</a>
-						{% include "Backend/Articles/_deleteform.html.twig" %}
-					</div>
-				</div>
-			</div>
-		{% endfor %}
-	</div>
-</section>{% endblock %}
+				{% include "Components/_articleCard.html.twig" %}
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}
