@@ -3,13 +3,17 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\Categorie;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
@@ -34,10 +38,23 @@ class ArticleType extends AbstractType
                 'image_uri' => true,
                 'download_uri' => false,
             ])
-            ->add('categories', ChoiceType::class, [
+            ->add('categories', EntityType::class, [
                 'label' => 'Catégorie(s) :',
+                'placeholder' => 'Sélectionnez une catégorie',
+                'class' => Categorie::class,
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('c')
+                        ->andWhere('c.enable = :enable')
+                        ->setParameter('enable', true)
+                        ->orderBy('c.title', 'ASC');
+                },
+                'choice_label' => 'title',
                 'required' => false,
-                // 'choices' => $->getCategories(),
+                'multiple' => true,
+                'expanded' => false,
+                'by_reference' => false,
+                'autocomplete' => true,
+
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Contenu :',
@@ -57,6 +74,7 @@ class ArticleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Article::class,
+            'sanitize_html' => true,
 
         ]);
     }

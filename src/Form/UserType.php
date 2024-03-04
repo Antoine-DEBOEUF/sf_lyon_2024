@@ -81,6 +81,7 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'isAdmin' => false,
+            'sanitize_html' => true,
         ]);
     }
 }

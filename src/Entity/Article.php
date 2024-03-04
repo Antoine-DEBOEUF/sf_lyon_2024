@@ -180,22 +180,22 @@ class Article
         return $this->categories;
     }
 
-    // public function addCategory(Categorie $category): static
-    // {
-    //     if (!$this->categories->contains($category)) {
-    //         $this->categories->add($category);
-    //         $category->addArticle($this);
-    //     }
+    public function addCategory(Categorie $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+            $category->addArticle($this);
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
-    // public function removeCategory(Categorie $category): static
-    // {
-    //     if ($this->categories->removeElement($category)) {
-    //         $category->removeArticle($this);
-    //     }
+    public function removeCategory(Categorie $category): static
+    {
+        if ($this->categories->removeElement($category)) {
+            $category->removeArticle($this);
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 }
