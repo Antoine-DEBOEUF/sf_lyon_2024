@@ -9,6 +9,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
@@ -32,6 +33,11 @@ class ArticleType extends AbstractType
                 'delete_label' => 'Supprimer l\'image',
                 'image_uri' => true,
                 'download_uri' => false,
+            ])
+            ->add('categories', ChoiceType::class, [
+                'label' => 'Catégorie(s) :',
+                'required' => false,
+                // 'choices' => $->getCategories(),
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Contenu :',
