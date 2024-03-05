@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 
@@ -29,15 +30,16 @@ class ArticleType extends AbstractType
                     'placeholder' => 'Titre de l\'article',
                 ]
             ])
-
-            ->add('imageFile', VichImageType::class, [
-                'label' => 'Image :',
+            ->add('images', CollectionType::class, [
+                'label' => false,
                 'required' => false,
+                'entry_type' => ArticleImageType::class,
+                'allow_add' => true,
                 'allow_delete' => true,
-                'delete_label' => 'Supprimer l\'image',
-                'image_uri' => true,
-                'download_uri' => false,
+                'delete_empty' => true,
+                'by_reference' => false,
             ])
+
             ->add('categories', EntityType::class, [
                 'label' => 'Catégorie(s) :',
                 'placeholder' => 'Sélectionnez une catégorie',

@@ -15,6 +15,8 @@ vich_uploader:
       uri_prefix: /images/articles
       upload_destination: "%kernel.project_dir%/public/images/articles"
       namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+      directory_namer: app.directory_namer.article
+
       inject_on_load: false
       delete_on_update: true
       delete_on_remove: true
