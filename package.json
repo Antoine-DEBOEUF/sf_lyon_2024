@@ -22,16 +22,14 @@
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "build": "encore production --progress",
-    "postinstall": "husky init",
-    "prepare": "husky"
-},
+    "build": "encore production --progress"
+
+  },
   "config": {
     "commitizen": {
-        "path": "./cz-adapter.cjs"
+      "path": "./cz-adapter.cjs"
     }
-},
-  
+  },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.3",
@@ -42,6 +40,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "jquery": "^3.7.1",
+    "swiper": "^11.0.7",
     "tom-select": "^2.3.1"
   }
 }
