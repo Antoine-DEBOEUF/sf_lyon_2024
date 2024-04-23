@@ -56,10 +56,14 @@ class Article
     #[ORM\OneToMany(targetEntity: ArticleImage::class, mappedBy: 'article', orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
+    #[ORM\OneToMany(targetEntity: ArticleCommentary::class, mappedBy: 'article', orphanRemoval: true)]
+    private Collection $articleCommentaries;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->articleCommentaries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -178,6 +182,36 @@ class Article
             // set the owning side to null (unless already changed)
             if ($image->getArticle() === $this) {
                 $image->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ArticleCommentary>
+     */
+    public function getArticleCommentaries(): Collection
+    {
+        return $this->articleCommentaries;
+    }
+
+    public function addArticleCommentary(ArticleCommentary $articleCommentary): static
+    {
+        if (!$this->articleCommentaries->contains($articleCommentary)) {
+            $this->articleCommentaries->add($articleCommentary);
+            $articleCommentary->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticleCommentary(ArticleCommentary $articleCommentary): static
+    {
+        if ($this->articleCommentaries->removeElement($articleCommentary)) {
+            // set the owning side to null (unless already changed)
+            if ($articleCommentary->getArticle() === $this) {
+                $articleCommentary->setArticle(null);
             }
         }
 

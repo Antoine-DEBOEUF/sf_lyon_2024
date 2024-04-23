@@ -9,13 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 trait DateTimeTrait
 {
     #[ORM\Column]
-
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
 
     private ?\DateTimeImmutable $updatedAt = null;
-
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {

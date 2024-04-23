@@ -1,2 +1,17 @@
 <article class="col-md-8">
 	{{article.description|sanitize_html}}</article>
+
+<section class="col-md-8 ms-auto mt-4">
+	<h2>Commentaires</h2>
+	{% if app.user %}
+		{% include "Frontend/Articles/_comments.html.twig" %}
+	{% else %}
+		<div class="alert alert-info mt-3">
+			<p>
+				Vous devez être connecté pour laisser un commentaire
+				<a href="{{path('app.login')}}" class="alert-link">Se connecter</a>
+			</p>
+		</div>
+	{% endif %}
+
+</section>

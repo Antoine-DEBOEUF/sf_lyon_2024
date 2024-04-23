@@ -1,0 +1,45 @@
+<section class="mt-2 commentaire-list">
+	<div class="d-flex flex-wrap gap-2 align-items-center">
+		{% for commentary in article.articleCommentaries %}
+			<div class="card border-secondary">
+				<div class="card-body">
+					<p class="card-text">
+						Par :
+						{{commentary.user.fullName}}
+					</p>
+					<p class="card-text text-muted">
+						Dernière modification
+						{{commentary.createdAt|ago}}
+					</p>
+					<p class="card-text">
+
+						{% for i in range(0,4) %}
+							<i class="bi bi-star{{i<commentary.note ? '-fill'}}"></i>
+						{% endfor %}
+
+					</p>
+					<p class="card-text">
+						{{commentary.content|sanitize_html}}
+					</p>
+
+					{% if app.request.get('_route') == 'admin.comment.index' %}
+						<div class="form-check form-switch">
+							<input class="form-check-input" type="checkbox" id="switch-visibility-article-{{ArticleCommentary.id}}" {{aArticleCommentary.enable ? 'checked'}} data-switch-article="{{ArticleCommentary.id}}"/>
+							<label class="form-check-label" for="switch-visibility-article-{{ArticleCommentary.id}}">{{ArticleCommentary.enable ? 'Actif' : 'Inactif'}}</label>
+						</div>
+					{% endif %}
+
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</section>
+
+
+<p>Publier un commentaire :
+</p>
+
+{{form_start(form, {attr: {class:'card p-3'}})}}
+{{form_widget(form)}}
+<button type="submit" class="btn btn-primary">Publier</button>
+{{form_end(form)}}
